@@ -396,6 +396,8 @@ class StoryView extends StatefulWidget {
 
   final Function(StoryItem) onBack;
 
+  final bool startFromBeginningIfAllShown;
+
   StoryView({
     @required this.storyItems,
     @required this.controller,
@@ -405,6 +407,7 @@ class StoryView extends StatefulWidget {
     this.progressPosition = ProgressPosition.top,
     this.repeat = false,
     this.inline = false,
+    this.startFromBeginningIfAllShown = true,
     this.onVerticalSwipeComplete,
   })  : assert(storyItems != null && storyItems.length > 0,
             "[storyItems] should not be null or empty"),
@@ -447,6 +450,13 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
     final firstPage = widget.storyItems.firstWhere((it) {
       return !it.shown;
     }, orElse: () {
+      if (widget.startFromBeginningIfAllShown) {
+        widget.storyItems.forEach((it2) {
+          it2.shown = false;
+        });
+
+        return null;
+      }
       return widget.storyItems.last;
     });
 
@@ -572,7 +582,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
 
       _beginPlay();
     }
-    if(widget.onBack != null){
+    if (widget.onBack != null) {
       widget.onBack(this._currentStory);
     }
   }
