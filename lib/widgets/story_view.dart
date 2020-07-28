@@ -447,11 +447,7 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
     final firstPage = widget.storyItems.firstWhere((it) {
       return !it.shown;
     }, orElse: () {
-      widget.storyItems.forEach((it2) {
-        it2.shown = false;
-      });
-
-      return null;
+      return widget.storyItems.last;
     });
 
     if (firstPage != null) {
