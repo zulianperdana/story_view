@@ -394,10 +394,13 @@ class StoryView extends StatefulWidget {
   // Controls the playback of the stories
   final StoryController controller;
 
+  final Function(StoryItem) onBack;
+
   StoryView({
     @required this.storyItems,
     @required this.controller,
     this.onComplete,
+    this.onBack,
     this.onStoryShow,
     this.progressPosition = ProgressPosition.top,
     this.repeat = false,
@@ -572,6 +575,9 @@ class StoryViewState extends State<StoryView> with TickerProviderStateMixin {
       previous.shown = false;
 
       _beginPlay();
+    }
+    if(widget.onBack != null){
+      widget.onBack(this._currentStory);
     }
   }
 
